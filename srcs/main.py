@@ -79,11 +79,7 @@ def main():
         elif cmnd.startswith('ssh'):
             pass
         elif cmnd.startswith('spmn'):
-            questions = [
-                inquirer.Text("username", "Insert your Username"),
-                inquirer.Password("usrpwd", '*')
-            ]
-            answers = inquirer.prompt(questions)
+            pass
         elif cmnd == "reload":
             print("Reloading Terminal...")
             time.sleep(0.5)
