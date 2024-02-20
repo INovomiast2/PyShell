@@ -3,7 +3,7 @@ def parseFlags(command):
     return splitted_cmnd[1::]
 
 
-def checkFlags(flags, message):
+def checkFlags(flags, message=""):
     if len(flags) <= 0:
         print(message)
         return False

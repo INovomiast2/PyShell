@@ -10,9 +10,9 @@ def run_main_script():
     """
     try:
         if len(sys.argv) == 2:
-            subprocess.run(["py", sys.argv[1]])
+            subprocess.run(["python3", sys.argv[1]])
         elif len(sys.argv) == 3:
-            subprocess.run(["py", sys.argv[1], sys.argv[2]])
+            subprocess.run(["python3", sys.argv[1], sys.argv[2]])
     except FileNotFoundError as e:
         print(f"Error: Main script 'main.py' not found! ({e})")
     except subprocess.CalledProcessError as e:

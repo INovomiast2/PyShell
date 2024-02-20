@@ -7,6 +7,11 @@ import execute as ex
 import time
 import random
 import inquirer
+from commands import clear
+from commands import exit
+from commands import ls
+from commands import cd
+from commands import cat
 
 def load_modules(directory):
   """Iterates through module files in a directory and displays loading messages."""
@@ -18,49 +23,6 @@ def load_modules(directory):
   for msg in messages:
     print("PyShell - " + msg)
     time.sleep(random.random() * 0.2)  # Add random delay for each module
-    
-def setIcon(file_extension):
-    fExtensions = [
-        ('.py', ''),
-        ('.lnk', ''),
-        ('.webp', '󰋩'),
-        ('.pdf', ''),
-        ('.docx', '󰈙'),
-        ('.pptx', '󱎐'),
-        ('.xlsx', '󱎏'),
-        ('.jpg', '󰋩'),
-        ('.png', '󰋩'),
-        ('.mp3', '󰎄'),
-        ('.wav', '󱑽'),
-        ('.java', ''),
-        ('.go', ''),
-        ('.js', ''),
-        ('.json', '󰘦'),
-        ('.jsx', ''),
-        ('.css', ''),
-        ('.html', ''),
-        ('.txt', ''),
-        ('.md', ''),
-        ('.c', ''),
-        ('.cpp', ''),
-        ('.h', ''),
-        ('.hpp', ''),
-        ('.exe', '󰏚'),
-        ('.dll', '󰏚'),
-        ('.msi', '󰏚'),
-        ('.bat', '󰏚'),
-        ('.sh', ''),
-        ('.pyc', ''),
-        ('.pyd', ''),
-        ('.pyo', ''),
-        ('.pyw', ''),
-        ('.pyz', ''),
-        ('.key', '󰏚'),
-    ]
-    
-    for ext, icon in fExtensions:
-        if ext.lower() == file_extension.lower():
-            return icon
 
 def main():
     arguments = sys.argv
@@ -76,7 +38,11 @@ def main():
         ==================================
     """
     
-    os.system('cls')
+    if sys.platform == "win32":
+        os.system('cls')
+    elif sys.platform == "darwin" or sys.platform == "linux":
+        os.system('clear')
+
     for arg in arguments:
         if arg == "--styled":
             time.sleep(0.5)
@@ -94,53 +60,17 @@ def main():
         cmnd = input(preInputString)
 
         if cmnd == "clear":
-            os.system('cls')
+            clear.clear_shell()
         elif cmnd == "exit":
-            os.system('cls')
-            sys.exit(0)
+            exit.exit_shell()
         elif cmnd == "ls":
-            directory_content = os.listdir(path=os.getcwd())[::-1]
-            for content in directory_content:
-                file_name, file_extension = os.path.splitext(os.path.join(os.getcwd() + content))
-                if os.path.isdir(f"{os.getcwd()}/{content}"):
-                    print(colorama.Fore.BLUE + content + colorama.Fore.RESET)
-                else:
-                    print(f"{content} {setIcon(file_extension)}")
+            ls.list_directory()
         elif cmnd == "ls -la":
-            os.system('dir')
+            ls.list_all_directory()
         elif cmnd.startswith('cd'):
-            command_flags = flags.parseFlags(cmnd)
-            if flags.checkFlags(command_flags):
-                print("Usage: cd <target_directory>")
-                continue
-            else:
-                target_directory = command_flags[0]
-                try:
-                    os.chdir(target_directory)
-                    print(f"You are now on: {os.getcwd()}")
-                except FileNotFoundError:
-                    print(f"{colorama.Fore.RED}[ERROR]{colorama.Fore.RESET}: `{target_directory}´ not found! ")
-                except NotADirectoryError:
-                    print(f"{colorama.Fore.RED}[ERROR]{colorama.Fore.RESET}: `{target_directory} is not a directory´")
+            cd.change_dir(cmnd)
         elif cmnd.startswith('cat'):
-            command_flags = flags.parseFlags(cmnd)
-            
-            if not flags.checkFlags(command_flags, "Usage: cat <file>"):
-                continue
-            
-            if command_flags[1] == "--help":
-                print("Usage: cat <file>")
-                print("Prints the content of a file.")
-                print("Example: cat file.txt")
-                continue
-               
-            try:
-                with open(os.path.join(os.getcwd(), command_flags[1]), "r", encoding="utf-8") as file:
-                    print(file.read())
-            except FileNotFoundError:
-                print(f"{colorama.Fore.RED}[ERROR]{colorama.Fore.RESET}: `{command_flags[1]}` not found!")
-            except FileExistsError:
-                print(f"{colorama.Fore.RED}[ERROR]{colorama.Fore.RESET}: `{command_flags[1]}` is a directory!")         
+            cat.parse_file(cmnd)
         elif cmnd.startswith('ssh'):
             pass
         elif cmnd.startswith('spmn'):
@@ -162,15 +92,15 @@ def main():
         elif cmnd.startswith("mkdir"):
             command_flags = flags.parseFlags(cmnd)
             
-            if len(command_flags) <= 1:
+            if not flags.checkFlags(command_flags):
                 print("mkdir <name>")
                 continue
             
-            if len(command_flags) >= 1:
+            if flags.checkFlags(command_flags):
                 try:
-                    print(f"Creating {command_flags[1]}...")
+                    print(f"Creating {command_flags[0]}...")
                     time.sleep(1)
-                    os.mkdir(command_flags[1])
+                    os.mkdir(command_flags[0])
                 except FileExistsError:
                     print(f"{colorama.Fore.RED}[ERROR]{colorama.Fore.RESET}: {command_flags[1]} already exists!")
         elif cmnd.startswith("rm"):
