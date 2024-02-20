@@ -1,0 +1,10 @@
+{CONFIG_SECTION_NAME}
+-[
+    CONFIG_PARAM: VALUE #comment
+    *HIDDEN_CONFIG: VALUE
+]-
+|-###############################-|
+{CONFIG_SECTION_NAME_2}
+-[
+    CONFIG_PARAM_2: VALUE
+]-

@@ -1,0 +1,13 @@
+{
+    "job_name": "test",
+    "interval": {
+        "every": {
+            "months": 0,
+            "days": 0,
+            "hours": 0,
+            "active": false
+        }
+    },
+    "action": "command_to_execute",
+    "created_by": "UserName"
+}
