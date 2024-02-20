@@ -14,15 +14,19 @@ from commands import cd
 from commands import cat
 
 def load_modules(directory):
-  """Iterates through module files in a directory and displays loading messages."""
-  messages = []
-  for filename in os.listdir(directory):
-    if filename.endswith(".py"):
-      module_name = os.path.splitext(filename)[0]
-      messages.append(f"Loading module: {module_name} ")
-  for msg in messages:
-    print("PyShell - " + msg)
-    time.sleep(random.random() * 0.2)  # Add random delay for each module
+    messages = []
+
+    if len(os.listdir(directory)) <= 0:
+        print("PyShell - No modules where found")
+        pass
+
+    for filename in os.listdir(directory):
+        if filename.endswith(".py"):
+            module_name = os.path.splitext(filename)[0]
+            messages.append(f"Loading module: {module_name} ")
+        for msg in messages:
+            print("PyShell - " + msg)
+            time.sleep(random.random() * 0.2)  # Add random delay for each module
 
 def main():
     arguments = sys.argv
@@ -38,26 +42,27 @@ def main():
         ==================================
     """
     
+    # Clear console
     if sys.platform == "win32":
         os.system('cls')
     elif sys.platform == "darwin" or sys.platform == "linux":
         os.system('clear')
 
-    for arg in arguments:
-        if arg == "--styled":
-            time.sleep(0.5)
-            print(banner)
-            time.sleep(1)
-            print("Starting PyShell 1.0.0...")
-            time.sleep(0.5)
-            load_modules(os.path.join(os.getcwd(), "../modules"))
-            os.system('cls' or 'clear')
-            print(banner)
-            
-            
+    # Load modules
+    time.sleep(0.5)
+    print(banner)
+    time.sleep(1)
+    print("Starting PyShell 1.0.0...")
+    time.sleep(0.5)
+    load_modules(os.path.join(os.getcwd(), "../modules"))
+    time.sleep(1)
+    clear.clear_shell()
+    print(banner)
+
+    # Prompt to insert command      
     preInputString = f"{colorama.Fore.BLUE}\ue62a{colorama.Fore.RESET}[{colorama.Fore.GREEN}{os.getlogin()}{colorama.Fore.RESET}\\/{colorama.Fore.LIGHTRED_EX}{socket.gethostname()}{colorama.Fore.RESET}]{colorama.Fore.LIGHTYELLOW_EX}$->{colorama.Fore.RESET} "
     while True:
-        cmnd = input(preInputString)
+        cmnd = input(preInputString) # Where the command is stored
 
         if cmnd == "clear":
             clear.clear_shell()
