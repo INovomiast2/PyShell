@@ -1,17 +1,11 @@
 import os
 import sys
-import flags
 import socket
+import flags
 import colorama
-import execute as ex
 import time
 import random
-import inquirer
-from commands import clear
-from commands import exit
-from commands import ls
-from commands import cd
-from commands import cat
+from commands import clear, exit, cat, cd, cron, ls, misc, spmn, mkdir
 
 def load_modules(directory):
     messages = []
@@ -31,15 +25,15 @@ def load_modules(directory):
 def main():
     arguments = sys.argv
     banner = """
-        _____        _____ _          _ _ 
-        |  _ \ _   _/ ___|| |__   ___| | |
-        | |_) | | | \___ \| '_ \ / _ \ | |
-        |  __/| |_| |___) | | | |  __/ | |
-        |_|    \__, |____/|_| |_|\___|_|_|   
-               |___/                         
-        ==================================
-        @  Version: 1.0.0 - INovomiast   @
-        ==================================
+    _____        _____ _          _ _ 
+    |  _ \ _   _/ ___|| |__   ___| | |
+    | |_) | | | \___ \| '_ \ / _ \ | |
+    |  __/| |_| |___) | | | |  __/ | |
+    |_|    \__, |____/|_| |_|\___|_|_|   
+            |___/                         
+    ==================================
+    @  Version: 1.0.0 - INovomiast   @
+    ==================================
     """
     
     # Clear console
@@ -60,7 +54,7 @@ def main():
     print(banner)
 
     # Prompt to insert command      
-    preInputString = f"{colorama.Fore.BLUE}\ue62a{colorama.Fore.RESET}[{colorama.Fore.GREEN}{os.getlogin()}{colorama.Fore.RESET}\\/{colorama.Fore.LIGHTRED_EX}{socket.gethostname()}{colorama.Fore.RESET}]{colorama.Fore.LIGHTYELLOW_EX}$->{colorama.Fore.RESET} "
+    preInputString = f"{colorama.Fore.LIGHTBLUE_EX}\ue62a{colorama.Fore.RESET} [{colorama.Fore.GREEN}{os.getlogin()}{colorama.Fore.RESET}\\/{colorama.Fore.LIGHTRED_EX}{socket.gethostname()}{colorama.Fore.RESET}]{colorama.Fore.LIGHTYELLOW_EX}$->{colorama.Fore.RESET} "
     while True:
         cmnd = input(preInputString) # Where the command is stored
 
@@ -79,43 +73,25 @@ def main():
         elif cmnd.startswith('ssh'):
             pass
         elif cmnd.startswith('spmn'):
-            pass
+            spmn.supermenu()
         elif cmnd == "reload":
-            print("Reloading Terminal...")
-            time.sleep(0.5)
-            sys.exit(1)
+            misc.misc_commands.reload()
         elif cmnd.startswith("cron"):
-            command_flags = flags.parseFlags(cmnd)
-            
-            if len(command_flags) <= 1:
-                print("cron < -n | -m | -l > <name> < -e | --show >")
-                continue
+            cron.cron_cmnd(cmnd)
         elif cmnd.startswith("mkdir"):
-            command_flags = flags.parseFlags(cmnd)
-            
-            if not flags.checkFlags(command_flags):
-                print("mkdir <name>")
-                continue
-            
-            if flags.checkFlags(command_flags):
-                try:
-                    print(f"Creating {command_flags[0]}...")
-                    time.sleep(1)
-                    os.mkdir(command_flags[0])
-                except FileExistsError:
-                    print(f"{colorama.Fore.RED}[ERROR]{colorama.Fore.RESET}: {command_flags[1]} already exists!")
+            mkdir.makedir(cmnd)
         elif cmnd.startswith("rm"):
             cmd_flags = flags.parseFlags(cmnd)
             
-            if flags.checkFlags(cmd_flags, "rm <file>") == False:
-                continue
+            if not flags.checkFlags(cmd_flags, "rm <file>"):
+                pass
             
-            if flags.checkFlags(cmd_flags, "") == True:
+            if flags.checkFlags(cmd_flags) == True:
                 try:
-                    os.remove(os.path.join(os.getcwd(), cmd_flags[0]))
+                    os.system(f"rm -r {os.path.join(os.getcwd(), cmd_flags[0])}") # PARTIAL FIX: Puede haber problemas de compatibilidad.
                     print(f"{cmd_flags[0]}: removed successfully!")
                 except FileNotFoundError:
-                    print(f"{colorama.Fore.RED}[ERROR]{colorama.Fore.RESET}: {cmd_flags[1]} not found!")
+                    print(f"{colorama.Fore.RED}[ERROR]{colorama.Fore.RESET}: {cmd_flags[0]} not found!")
                 except PermissionError as e:
                     print(f"{colorama.Fore.RED}[ERROR]{colorama.Fore.RESET}: {e}!")
                     

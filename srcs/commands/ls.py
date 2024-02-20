@@ -50,7 +50,7 @@ def list_directory():
     for content in directory_content:
         file_name, file_extension = os.path.splitext(os.path.join(os.getcwd() + content))
         if os.path.isdir(f"{os.getcwd()}/{content}"):
-            print(colorama.Fore.BLUE + content + colorama.Fore.RESET)
+            print(colorama.Fore.LIGHTBLUE_EX + content + colorama.Fore.RESET)
         else:
             print(f"{content} {setIcon(file_extension)}")
 
