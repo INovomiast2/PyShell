@@ -2,7 +2,7 @@ import os
 import time
 import subprocess
 import sys
-
+from pathlib import Path
 def run_main_script():
     """
     Executes the main script in the same directory using the Python interpreter.
@@ -20,20 +20,26 @@ def run_main_script():
 
 def monitor_for_changes():
     """
-    Checks for changes in the current file and restarts the main script if necessary.
+    Checks for changes in any file inside the project and restarts the main script if necessary.
     Handles potential missing directory errors.
     """
     try:
-        last_mtime = os.path.getmtime(".")
+        project_path = Path(sys.argv[0]).resolve().parent
+        last_mtime = {}
         while True:
-            time.sleep(0.5)  # Check for changes every 5 seconds
-            current_mtime = os.path.getmtime(sys.argv[1])
-            if current_mtime != last_mtime:
-                last_mtime = current_mtime
-                print("File changed, restarting main script...")
-                run_main_script()
+            time.sleep(0.5)  # Check for changes every 0.5 seconds
+            for root, _, files in os.walk(project_path):
+                for file in files:
+                    file_path = os.path.join(root, file)
+                    current_mtime = os.path.getmtime(file_path)
+                    if file_path not in last_mtime:
+                        last_mtime[file_path] = current_mtime
+                    elif current_mtime != last_mtime[file_path]:
+                        last_mtime[file_path] = current_mtime
+                        print(f"File '{file_path}' changed, restarting main script...")
+                        run_main_script()
     except FileNotFoundError as e:
-        print(f"Error: Could not access working directory! ({e})")
+        print(f"Error: Could not access project directory! ({e})")
 
 def main():
     """

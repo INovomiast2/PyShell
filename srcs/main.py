@@ -5,7 +5,7 @@ import flags
 import colorama
 import time
 import random
-from commands import clear, exit, cat, cd, cron, ls, misc as mc, spmn, mkdir, rm
+from commands import clear, exit, cat, cd, cron, ls, misc as mc, spmn, mkdir, rm, echo
 from misc import misc_functions
 
 
@@ -36,7 +36,7 @@ def main():
     time.sleep(1)
     print("Starting PyShell 1.0.0...")
     time.sleep(0.5)
-    misc_functions.load_modules(os.path.join(os.getcwd(), "../modules"))
+    misc_functions.load_modules(os.path.join(os.getcwd(), "modules"))
     time.sleep(1)
     clear.clear_shell()
     print(banner)
@@ -70,6 +70,8 @@ def main():
             mkdir.makedir(cmnd)
         elif cmnd.startswith("rm"):
             rm.remove(cmnd)
+        elif cmnd.startswith("echo"):
+            echo.echo(cmnd)
         else:
             print(f"'{cmnd}' does not exists or theres a typo or is not installed as a module.")
             print(f"Check and re-run it!")
