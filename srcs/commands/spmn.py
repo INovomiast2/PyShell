@@ -7,3 +7,4 @@ def supermenu():
     ]
     answers = inquirer.prompt(questions)
     print(answers)
+    return 0

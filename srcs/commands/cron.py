@@ -7,4 +7,4 @@ def cron_cmnd(command):
     
     if not flags.checkFlags(command_flags):
         print("cron < -n | -m | -l > <name> < -e | --show >")
-        pass
+        return 0

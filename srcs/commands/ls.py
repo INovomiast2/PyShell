@@ -53,9 +53,12 @@ def list_directory():
             print(colorama.Fore.LIGHTBLUE_EX + content + colorama.Fore.RESET)
         else:
             print(f"{content} {setIcon(file_extension)}")
+    return 0
 
 def list_all_directory():
     if sys.platform == "darwin" or sys.platform == "linux":
         os.system('ls -la')
+        return 0
     else:
         os.system('dir')
+        return 0
