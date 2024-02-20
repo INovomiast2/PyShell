@@ -6,21 +6,9 @@ import colorama
 import time
 import random
 from commands import clear, exit, cat, cd, cron, ls, misc, spmn, mkdir
+from misc import misc
 
-def load_modules(directory):
-    messages = []
 
-    if len(os.listdir(directory)) <= 0:
-        print("PyShell - No modules where found")
-        pass
-
-    for filename in os.listdir(directory):
-        if filename.endswith(".py"):
-            module_name = os.path.splitext(filename)[0]
-            messages.append(f"Loading module: {module_name} ")
-        for msg in messages:
-            print("PyShell - " + msg)
-            time.sleep(random.random() * 0.2)  # Add random delay for each module
 
 def main():
     arguments = sys.argv
@@ -48,7 +36,7 @@ def main():
     time.sleep(1)
     print("Starting PyShell 1.0.0...")
     time.sleep(0.5)
-    load_modules(os.path.join(os.getcwd(), "../modules"))
+    misc.load_modules(os.path.join(os.getcwd(), "../modules"))
     time.sleep(1)
     clear.clear_shell()
     print(banner)
@@ -103,5 +91,4 @@ def main():
 
 
 if __name__ == "__main__":
-    print("Hola Mundo!!")
     main()
