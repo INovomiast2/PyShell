@@ -5,8 +5,8 @@ import flags
 import colorama
 import time
 import random
-from commands import clear, exit, cat, cd, cron, ls, misc, spmn, mkdir
-from misc import misc
+from commands import clear, exit, cat, cd, cron, ls, misc as mc, spmn, mkdir, rm
+from misc import misc_functions
 
 
 
@@ -36,7 +36,7 @@ def main():
     time.sleep(1)
     print("Starting PyShell 1.0.0...")
     time.sleep(0.5)
-    misc.load_modules(os.path.join(os.getcwd(), "../modules"))
+    misc_functions.load_modules(os.path.join(os.getcwd(), "../modules"))
     time.sleep(1)
     clear.clear_shell()
     print(banner)
@@ -63,26 +63,13 @@ def main():
         elif cmnd.startswith('spmn'):
             spmn.supermenu()
         elif cmnd == "reload":
-            misc.misc_commands.reload()
+            mc.misc_commands.reload()
         elif cmnd.startswith("cron"):
             cron.cron_cmnd(cmnd)
         elif cmnd.startswith("mkdir"):
             mkdir.makedir(cmnd)
         elif cmnd.startswith("rm"):
-            cmd_flags = flags.parseFlags(cmnd)
-            
-            if not flags.checkFlags(cmd_flags, "rm <file>"):
-                pass
-            
-            if flags.checkFlags(cmd_flags) == True:
-                try:
-                    os.system(f"rm -r {os.path.join(os.getcwd(), cmd_flags[0])}") # PARTIAL FIX: Puede haber problemas de compatibilidad.
-                    print(f"{cmd_flags[0]}: removed successfully!")
-                except FileNotFoundError:
-                    print(f"{colorama.Fore.RED}[ERROR]{colorama.Fore.RESET}: {cmd_flags[0]} not found!")
-                except PermissionError as e:
-                    print(f"{colorama.Fore.RED}[ERROR]{colorama.Fore.RESET}: {e}!")
-                    
+            rm.remove(cmnd)
         else:
             print(f"'{cmnd}' does not exists or theres a typo or is not installed as a module.")
             print(f"Check and re-run it!")

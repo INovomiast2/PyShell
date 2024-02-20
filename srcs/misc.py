@@ -2,7 +2,7 @@ import os
 import time
 import random
 
-class misc():
+class misc_functions():
     def load_modules(directory):
         messages = []
 
