@@ -6,9 +6,14 @@ import os
 def change_dir(command):
     command_flags = flags.parseFlags(command)
     if not flags.checkFlags(command_flags):
-        print("Usage: cd <target_directory>")
+        os.chdir(os.path.expanduser("~"))
+        print(f"You are now on: {os.getcwd()}")
         return 0
     else:
+        if (command_flags[0] == "-h") or (command_flags[0] == "--help"):
+            print("Usage: cd <target_directory>")
+            return 0
+
         target_directory = command_flags[0]
         try:
             os.chdir(target_directory)
