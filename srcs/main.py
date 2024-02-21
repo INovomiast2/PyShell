@@ -1,12 +1,13 @@
 import os
 import sys
 import socket
-import flags
-import colorama
+from utils import colors
 import time
 import random
 from commands import clear, exit, cat, cd, cron, ls, misc as mc, spmn, mkdir, rm, echo
 from misc import misc_functions
+from pathlib import Path as path
+import jobs
 
 
 
@@ -36,13 +37,15 @@ def main():
     time.sleep(1)
     print("Starting PyShell 1.0.0...")
     time.sleep(0.5)
-    misc_functions.load_modules(os.path.join(os.getcwd(), "modules"))
+    misc_functions.load_modules(os.path.join(path.home(), ".pyshell", "modules"))
     time.sleep(1)
     clear.clear_shell()
     print(banner)
+    # Execute active cronjobs:
+    #jobs.__init__(os.path.join(path.home(), ".pyshell", "cronjobs/"))
 
     # Prompt to insert command      
-    preInputString = f"{colorama.Fore.LIGHTBLUE_EX}\ue62a{colorama.Fore.RESET} [{colorama.Fore.GREEN}{os.getlogin()}{colorama.Fore.RESET}\\/{colorama.Fore.LIGHTRED_EX}{socket.gethostname()}{colorama.Fore.RESET}]{colorama.Fore.LIGHTYELLOW_EX}$->{colorama.Fore.RESET} "
+    preInputString = f"{colors.LIGHTBLUE_EX}\ue62a{colors.RESET} [{colors.GREEN}{os.getlogin()}{colors.RESET}\\/{colors.LIGHTRED_EX}{socket.gethostname()}{colors.RESET}]{colors.LIGHTYELLOW_EX}$->{colors.RESET} "
     while True:
         cmnd = input(preInputString) # Where the command is stored
 
@@ -76,7 +79,6 @@ def main():
             print(f"'{cmnd}' does not exists or theres a typo or is not installed as a module.")
             print(f"Check and re-run it!")
             print(f"pypkg <package-name> to install the module!")
-            
 
 
 if __name__ == "__main__":

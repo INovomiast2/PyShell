@@ -1,7 +1,7 @@
 import os
 import sys
 import socket
-import colorama
+from utils import colors
 
 class execute:
     def __init__(self, command="", flags=""):

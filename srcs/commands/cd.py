@@ -1,4 +1,4 @@
-import colorama
+from utils import colors
 import flags
 import os
 
@@ -20,8 +20,8 @@ def change_dir(command):
             print(f"You are now on: {os.getcwd()}")
             return 0
         except FileNotFoundError:
-            print(f"{colorama.Fore.RED}[ERROR]{colorama.Fore.RESET}: `{target_directory}´ not found! ")
+            print(f"{colors.RED}[ERROR]{colors.RESET}: `{target_directory}´ not found! ")
             return 1
         except NotADirectoryError:
-            print(f"{colorama.Fore.RED}[ERROR]{colorama.Fore.RESET}: `{target_directory} is not a directory´")
+            print(f"{colors.RED}[ERROR]{colors.RESET}: `{target_directory} is not a directory´")
             return 1

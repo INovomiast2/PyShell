@@ -1,7 +1,7 @@
 import os
 import sys
 import flags
-import colorama
+from utils import colors
 
 def remove(command):
     cmd_flags = flags.parseFlags(command)
@@ -15,8 +15,8 @@ def remove(command):
             print(f"{cmd_flags[0]}: removed successfully!")
             return 0
         except FileNotFoundError:
-            print(f"{colorama.Fore.RED}[ERROR]{colorama.Fore.RESET}: {cmd_flags[0]} not found!")
+            print(f"{colors.RED}[ERROR]{colors.RESET}: {cmd_flags[0]} not found!")
             return 1
         except PermissionError as e:
-            print(f"{colorama.Fore.RED}[ERROR]{colorama.Fore.RESET}: {e}!")
+            print(f"{colors.RED}[ERROR]{colors.RESET}: {e}!")
             return 1

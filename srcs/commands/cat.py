@@ -1,6 +1,6 @@
 import os
 import sys
-import colorama
+from utils import colors, help
 import flags
 
 def parse_file(command):
@@ -10,9 +10,7 @@ def parse_file(command):
         return 0
     
     if command_flags[0] == "--help":
-        print("Usage: cat <file>")
-        print("Prints the content of a file.")
-        print("Example: cat file.txt")
+        print(help.message.cat_help)
         return 0
     else:
         try:
@@ -21,8 +19,8 @@ def parse_file(command):
             file.close()
             return 0
         except FileNotFoundError:
-            print(f"{colorama.Fore.RED}[ERROR]{colorama.Fore.RESET}: `{command_flags[0]}` not found!")
+            print(f"{colors.RED}[ERROR]{colors.RESET}: `{command_flags[0]}` not found!")
             return 1
         except FileExistsError:
-            print(f"{colorama.Fore.RED}[ERROR]{colorama.Fore.RESET}: `{command_flags[0]}` is a directory!")
+            print(f"{colors.RED}[ERROR]{colors.RESET}: `{command_flags[0]}` is a directory!")
             return 1

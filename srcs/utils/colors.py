@@ -1,6 +1,6 @@
 import colorama
 
-# Path: srcs/utils/colors.py
+# Path: srcs/utils/colorama.Fore.py
 
 RED = colorama.Fore.RED
 GREEN = colorama.Fore.GREEN
@@ -17,3 +17,9 @@ LIGHTBLUE_EX = colorama.Fore.LIGHTBLUE_EX
 LIGHTMAGENTA_EX = colorama.Fore.LIGHTMAGENTA_EX
 LIGHTCYAN_EX = colorama.Fore.LIGHTCYAN_EX
 LIGHTWHITE_EX = colorama.Fore.LIGHTWHITE_EX
+
+class FONT_EFFECTS:
+    BOLD = colorama.Style.BRIGHT
+    DIM = colorama.Style.DIM
+    NORMAL = colorama.Style.NORMAL
+    RESET_ALL = colorama.Style.RESET_ALL
